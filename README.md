@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Pull Request Target Branch Check
-        uses: drankhil/pull-request-target-branch-check@dcf39558f2fe4ee47daf86cba710b4380063c902  # v1.0.0
+        uses: drankhil/pull-request-target-branch-check@f94f50106cda2928f903d79e723a7495af33af54  # v1.0.0
 ```
 
 ## Output examples
