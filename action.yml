@@ -1,0 +1,16 @@
+name: 'Pull Request Target Branch Check'
+
+description: "Checks the target branch of a pull request and helps to avoid merging it to a wrong one"
+
+inputs:
+  branch_file:
+    description: "Name of the branch file. The content of the file is the name of the branch"
+    default: ".branch"
+
+runs:
+  using: "composite"
+  steps:
+    - run: '"$GITHUB_ACTION_PATH/pull-request-target-branch-check.sh" "$BRANCH_FILE"'
+      shell: bash
+      env:
+        BRANCH_FILE: ${{ inputs.branch_file }}
