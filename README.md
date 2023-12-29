@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 2
 
       - name: Pull Request Target Branch Check
-        uses: drankhil/pull-request-target-branch-check@f94f50106cda2928f903d79e723a7495af33af54  # v1.0.0
+        uses: drankhil/pull-request-target-branch-check@51312d2c1d3155032d17276f0ed05835d6031076  # v1.1.0
         with:
           source_branch: ${{ github.event.pull_request.head.sha }}  # This is not required if fetch-depth is set to 0
 ```
