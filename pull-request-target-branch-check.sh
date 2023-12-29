@@ -4,7 +4,7 @@ set -euo pipefail
 
 usage() {
   echo "Usage:"
-  echo "  $(basename "$0") BRANCH_FILE"
+  echo "  $(basename "$0") SOURCE_BRANCH TARGET_BRANCH BRANCH_FILE"
 }
 
 # shellcheck disable=SC2001
@@ -18,16 +18,23 @@ echo_info() {
 }
 
 check_target_branch_file() {
-  local branch_file=$1
-  
-  local target_branch=$GITHUB_BASE_REF
+  local source_branch=$1
+  local target_branch=$2
+  local branch_file=$3
 
-  if [[ ! -f "$branch_file" ]]; then
-    echo_info "Skipping the check. Branch file \"$branch_file\" doesn't exist"
-    return 0 
+  if ! git cat-file -e "$source_branch" 2>/dev/null; then
+    echo_err "Branch \"$source_branch\" doesn't exist"
+    return 1
   fi
 
-  if [[ $(cat "$branch_file") == "$target_branch" ]]; then
+  if ! git cat-file -e "$source_branch:$branch_file" 2>/dev/null; then
+    echo_info "Skipping the check. Branch file \"$branch_file\" doesn't exist on \"$source_branch\""
+    return 0
+  fi
+
+  local branch_file_content; branch_file_content=$(git cat-file blob "$source_branch:$branch_file")
+
+  if [[ $branch_file_content == "$target_branch" ]]; then
     echo_info "The content of file \"$branch_file\" matches the target branch \"$target_branch\""
     return 0
   else
@@ -36,7 +43,7 @@ check_target_branch_file() {
   fi
 }
 
-[[ $# -ne 1 ]] && { usage >&2; exit 1; }
+[[ $# -ne 3 ]] && { usage >&2; exit 1; }
 
 [[ ${RUNNER_DEBUG:-} == "1" ]] && set -x
 
