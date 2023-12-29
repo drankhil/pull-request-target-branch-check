@@ -6,10 +6,9 @@ This is done using a branch file (`.branch` is the default file). The content of
 
 ##  Inputs
 
-| Name          | Required | Default Value                 | Description                                                                    |
-|---------------|----------|-------------------------------|--------------------------------------------------------------------------------|
-| branch_file   | false    | .branch                       | Name of the file. The content of this file should match the name of its branch |
-| source_branch | false    | origin/${{ github.head_ref }} | The source branch of the pull request                                          |
+| Name        | Required | Default Value | Description                                                                    |
+|-------------|----------|---------------|--------------------------------------------------------------------------------|
+| branch_file | false    | .branch       | Name of the file. The content of this file should match the name of its branch |
 
 ## Usage
 
@@ -33,9 +32,7 @@ jobs:
           fetch-depth: 2
 
       - name: Pull Request Target Branch Check
-        uses: drankhil/pull-request-target-branch-check@51312d2c1d3155032d17276f0ed05835d6031076  # v1.1.0
-        with:
-          source_branch: ${{ github.event.pull_request.head.sha }}  # This is not required if fetch-depth is set to 0
+        uses: drankhil/pull-request-target-branch-check@eef8db50c3e303698473c58c8015c2369c0470b1  # v1.2.0
 ```
 
 ## Output examples

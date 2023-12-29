@@ -6,9 +6,6 @@ inputs:
   branch_file:
     description: "Name of the branch file. The content of the file is the name of the branch"
     default: ".branch"
-  source_branch:
-    description: "Source branch of the pull request"
-    default: "origin/${{ github.head_ref }}"
 
 runs:
   using: "composite"
@@ -16,6 +13,6 @@ runs:
     - run: '"$GITHUB_ACTION_PATH/pull-request-target-branch-check.sh" "$SOURCE_BRANCH" "$TARGET_BRANCH" "$BRANCH_FILE"'
       shell: bash
       env:
-        SOURCE_BRANCH: ${{ inputs.source_branch }}
+        SOURCE_BRANCH: ${{ github.event.pull_request.head.sha }}
         TARGET_BRANCH: ${{ github.base_ref }}
         BRANCH_FILE: ${{ inputs.branch_file }}
